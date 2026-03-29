@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>QIBLA</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../style.css"/>
+  </head>
+  <body style="background-color: cadetblue">
+    <!--Header-->
+    <header style="justify-content: center;display: flex;flex-direction: column;text-align: center;background-color: cadetblue;height:50px;">
+      <text style="font-size: larger; color:white;">QIBLA</text>
+    </header>
+<!--Navigation Bar-->
+<div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
+    <a id="buttons" href="./extra.html">
+      <text style="margin-top: 10px">EXTRA</text>
+      <i style="margin-bottom: 10px"  class="fa-solid fa-gear"></i>
+    </a>
+</div>
+
+   
+    <div style="margin:30px; color:white; text-align: center;">
+      <text><b>IF THE COMPASS ISN'T WORKING REMEMBER TO TURN ON YOUR LOCATION IN SETTINGS</b></text>
+    </div>
+
+    <div class="compass">
+      <div class="arrow"></div>
+      <div class="compass-circle"></div>
+      <div class="my-point"></div>
+    </div>
+    <div style="display:flex;flex-direction:row; flex:1 1 100%;flex-wrap:nowrap; align-items: center; justify-content: center;">
+      <button class="start-btn"><b>START COMPASS</b></button>
+    </div>
+    <div style="bottom:0; width:100%;display: flex; flex-direction: row; align-items:flex-end; justify-content: center; flex:1; align-self:baseline; background-color: skyblue;">
+        <a href="https://www.youtube.com/@RocketRoni2007">
+          <i style="font-size:25px; margin:20px; text-decoration:none; color: white;" class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://www.tiktok.com/@rocketroni2007">
+          <i style="font-size:25px; margin:20px; text-decoration: none; color: white;" class="fa-brands fa-tiktok"></i>
+        </a>
+    </div>
+  </body>
+  
+  <script>
+    const compassCircle = document.querySelector(".compass-circle");
+    const myPoint = document.querySelector(".my-point");
+    const startBtn = document.querySelector(".start-btn");
+    const isIOS =
+      navigator.userAgent.match(/(iPod|iPhone|iPad)/) &&
+      navigator.userAgent.match(/AppleWebKit/);
+
+    function init() {
+      startBtn.addEventListener("click", startCompass);
+      navigator.geolocation.getCurrentPosition(locationHandler);
+
+      if (!isIOS) {
+        window.addEventListener("deviceorientationabsolute", handler, true);
+      }
+    }
+
+    function startCompass() {
+      if (isIOS) {
+        DeviceOrientationEvent.requestPermission()
+          .then((response) => {
+            if (response === "granted") {
+              window.addEventListener("deviceorientation", handler, true);
+            } else {
+              alert("has to be allowed!");
+            }
+          })
+          .catch(() => alert("not supported"));
+      }
+    }
+
+    function handler(e) {
+      compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+      compassCircle.style.transform = `translate(-50%, -50%) rotate(${-compass}deg)`;
+
+      // ±15 degree
+      if (
+        (pointDegree < Math.abs(compass) &&
+          pointDegree + 15 > Math.abs(compass)) ||
+        pointDegree > Math.abs(compass + 15) ||
+        pointDegree < Math.abs(compass)
+      ) {
+        myPoint.style.opacity = 0;
+      } else if (pointDegree) {
+        myPoint.style.opacity = 1;
+      }
+    }
+
+    let pointDegree;
+
+    function locationHandler(position) {
+      const { latitude, longitude } = position.coords;
+      pointDegree = calcDegreeToPoint(latitude, longitude);
+
+      if (pointDegree < 0) {
+        pointDegree = pointDegree + 360;
+      }
+    }
+
+    function calcDegreeToPoint(latitude, longitude) {
+      // Qibla geolocation
+      const point = {
+        lat: 21.422487,
+        lng: 39.826206
+      };
+
+      const phiK = (point.lat * Math.PI) / 180.0;
+      const lambdaK = (point.lng * Math.PI) / 180.0;
+      const phi = (latitude * Math.PI) / 180.0;
+      const lambda = (longitude * Math.PI) / 180.0;
+      const psi =
+        (180.0 / Math.PI) *
+        Math.atan2(
+          Math.sin(lambdaK - lambda),
+          Math.cos(phi) * Math.tan(phiK) -
+            Math.sin(phi) * Math.cos(lambdaK - lambda)
+        );
+      return Math.round(psi);
+    }
+
+    init();
+  </script>
+</html>
+

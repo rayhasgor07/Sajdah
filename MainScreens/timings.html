@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>SALAH TIMINGS</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body style="background-color: cadetblue">
+    <!--Header-->
+    <header
+      style="
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color: cadetblue;
+        height:50px;
+      "
+    >
+      <text style="font-size: larger; color:white;">SALAH TIMINGS</text>
+    </header>
+<!--Navigation Bar-->
+<div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
+  <a id="buttons" href="../index.html">
+      <text style="margin-top: 10px;">HOME</text>
+      <i style="margin-bottom: 10px;" class="fa-solid fa-house"></i>
+  </a>
+  <a id="buttons" href="./quran.html">
+      <text style="margin-top: 10px;">QURAN</text>
+      <i style="margin-bottom: 10px"  class="fa-solid fa-book-quran"></i>
+  </a>
+  <a id="buttons"  href="./dua.html">
+      <text style="margin-top: 10px;">DUAS</text>
+      <i style="margin-bottom: 10px" class="fa-solid fa-hands-praying"></i>
+  </a>
+  <a id="buttons" href="./kursi.html">
+      <text style="margin-top: 10px">AYATUL KURSI</text>
+      <i style="margin-bottom: 10px"  class="fa-solid fa-hand-point-up"></i>
+  </a>
+  </div>
+  <div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
+  <a id="buttons" href="./prophets.html">
+      <text style="margin-top: 10px">PROPHETS</text>
+      <i style="margin-bottom: 10px" class="fa-solid fa-mosque"></i>
+  </a>
+  <a id="buttons" href="./masjid.html">
+      <text style="margin-top: 10px">MASJID</text>
+      <i style="margin-bottom: 10px" class="fa-solid fa-mosque"></i>
+    </a>
+  <a id="buttons" style="background-color: darkcyan;" href="./timings.html">
+    <text style="margin-top: 10px">TIMINGS</text>
+    <i style="margin-bottom: 10px" class="fa-solid fa-calendar-days"></i>
+  </a>
+  <a id="buttons" href="./hadith.html">
+    <text style="margin-top: 10px">HADITHS</text>
+    <i style="margin-bottom: 10px"  class="fa-solid fa-scroll"></i>
+  </a>
+</div>
+<div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
+  <a id="buttons"  href="./extra.html">
+    <text style="margin-top: 10px">EXTRA</text>
+    <i style="margin-bottom: 10px"  class="fa-solid fa-gear"></i>
+  </a>
+    <a id="buttons" href="./profile.html">
+    <text style="margin-top: 10px">PROFILE</text>
+    <i style="margin-bottom: 10px"  class="fa-solid fa-user"></i>
+  </a>
+</div>
+
+
+
+    <div style="color:white; font-size:90%; margin-top:20px; text-align: center;">
+      <text><b>**ENTER YOUR LOCATION THE MORE PRECISE LOCATION THE MORE ACURATE THE TIMINGS ARE BECAUSE THERE COULD BE MANY TIMEZONES IN YOUR COUNTRY**</b></text>
+    </div>
+
+    <div style="margin:20px; text-align: center">
+    <form>
+      <input type="text" id="location" style="height:30px; width:75%;justify-content: center; align-self: center; border-radius: 10px; font-size: 110%; " placeholder="Ex: New York, America">
+      <button type="button" onclick="update()">SEARCH</button>
+    </form>
+  </div>
+
+  <div style="text-align: center; margin:10px">
+      <text style="color:white; font-size: 120%;" id="date">-</text>
+  </div>
+
+  <div style="text-align: center; margin:10px">
+    <text style="color:white; font-size: 120%;" id="greDate">-</text>
+</div>
+
+<div style="text-align: center; margin:10px">
+  <text style="color:white; font-size: 150%;" id="timezone">-</text>
+</div>
+
+<div style="text-align: center; margin:10px">
+  <text style="color:white; font-size: 130%;" id="time">-</text>
+</div>
+
+
+  <div style=" display:flex; flex-direction: column;background-color: cadetblue; justify-content: center; text-align: center; color:white; margin: 30px; font-size:120%" >
+   <b><text id="Fajr"></text></b>
+   <text id="TimerFajr"></text>
+   <b><text id="Dhuhr"></text></b>
+   <text id="TimerDhuhr"></text>
+   <b><text id="Asr"></text></b>
+   <text id="TimerAsr"></text>
+   <b><text id="Maghrib"></text></b>
+   <text id="TimerMaghrib"></text>
+   <b><text id="Isha"></text></b>
+   <text id="TimerIsha"></text>
+  </div>
+
+    <div style="display: flex; flex-direction: row; align-items:flex-end; justify-content: center; flex:1; align-self:baseline; background-color: skyblue;">
+        <a href="https://www.youtube.com/@RocketRoni2007">
+          <i style="font-size:25px; margin:20px; text-decoration:none; color: white;" class="fa-brands fa-youtube"></i>
+        </a>
+        <a href="https://www.tiktok.com/@rocketroni2007">
+          <i style="font-size:25px; margin:20px; text-decoration: none; color: white;" class="fa-brands fa-tiktok"></i>
+        </a>
+    </div>
+  </body>
+  <script>
+  function update(){
+  City= document.getElementById("location").value
+  console.log(City)
+  return City
+  }
+    var Fajr=document.getElementById("Fajr")
+    var TimerFajr=document.getElementById("TimerFajr")
+    var Dhuhr=document.getElementById("Dhuhr")
+    var TimerDhuhr=document.getElementById("TimerDhuhr")
+    var Asr=document.getElementById("Asr")
+    var TimerAsr=document.getElementById("TimerAsr")
+    var Maghrib=document.getElementById("Maghrib")
+    var TimerMaghrib=document.getElementById("TimerMaghrib")
+    var Isha=document.getElementById("Isha")
+    var TimerIsha=document.getElementById("TimerIsha")
+    var islamicDate=document.getElementById("date")
+    var timeZone=document.getElementById("timezone")
+function time(){
+   /* var sec = new Date().getSeconds();
+    var secZ = 0;
+    if (sec < 10) {
+      secZ = 0;
+    } else {
+      secZ = '';
+    }
+    var min = new Date().getMinutes();
+    var minZ = 0;
+    if (min < 10) {
+      minZ = 0;
+    } else {
+      minZ = '';
+    }
+    var hour=new Date().getHours();
+    var hourZ = 0;
+    if (hour < 10) {
+      hourZ = 0;
+    } else {
+      hourZ = '';
+    }
+      */
+    var day = new Date().getDate();
+    var dayZ = 0;
+    if (day < 10) {
+      dayZ = 0;
+    } else {
+      dayZ = '';
+    }
+    var month = new Date().getMonth() + 1;
+    var monthZ = 0;
+    if (month < 10) {
+      monthZ = 0;
+    } else {
+      monthZ = '';
+    }
+    var year = new Date().getFullYear();
+    var num = 0;
+    if (month < 10) {
+      num = 0;
+    } else {
+      num = '';
+    }
+  
+
+ 
+
+    var url =
+      'https://api.aladhan.com/v1/calendarByAddress/' +
+      year +
+      '/' +
+      num +
+      month +
+      '?address='+
+      City+
+      '&method';
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        for (var i in responseJson.data) {
+      var faj = responseJson.data[day-1].timings.Fajr;
+      var dhu = responseJson.data[day-1].timings.Dhuhr;
+      var asr = responseJson.data[day-1].timings.Asr;
+      var mag = responseJson.data[day-1].timings.Maghrib;
+      var ish = responseJson.data[day-1].timings.Isha;
+      var dat = responseJson.data[day-1].date.hijri.date;
+      var zone = responseJson.data[day-1].meta.timezone;
+      console.log(zone)
+      Fajr.innerHTML="Fajr: "+faj
+      Dhuhr.innerHTML="Dhuhr: "+dhu
+      Asr.innerHTML="Asr: "+asr
+      Maghrib.innerHTML="Maghrib: "+mag
+      Isha.innerHTML="Isha: "+ish
+      islamicDate.innerHTML="ISLAMIC DATE: "+dat
+      timeZone.innerHTML="TimeZone: "+zone
+      
+    
+
+      var timeUrl= "https://timeapi.io/api/timezone/zone?timeZone="+zone
+    fetch(timeUrl)
+      .then((response) => response.json())
+      .then((responseJson) => {
+       hour=responseJson.currentLocalTime.slice(11,13)
+       min=responseJson.currentLocalTime.slice(14,16)
+        sec=responseJson.currentLocalTime.slice(17, 19)
+        gregdate=responseJson.currentLocalTime.slice(0,10)
+      })
+
+      document.getElementById("greDate").innerText="GREGORIAN DATE: "+gregdate
+      document.getElementById('time').innerText="CURRENT TIME: "+hour+":"+min+":"+sec
+
+      fajHour=(faj[0]+faj[1]-hour)*60
+      fajMin=(faj[3]+faj[4])-min
+      fajTotalMin=(fajHour+fajMin)
+      fajHour=Math.floor(fajTotalMin/60)
+      fajMin=fajTotalMin%60
+      if (fajHour>0||fajMin>0){
+      TimerFajr.innerHTML="Time Until Fajr: "+fajHour+" hr and "+fajMin+" min"
+      }
+
+      dhuHour=(dhu[0]+dhu[1]-hour)*60
+      dhuMin=(dhu[3]+dhu[4])-min
+      dhuTotalMin=(dhuHour+dhuMin)
+      dhuHour=Math.floor(dhuTotalMin/60)
+      dhuMin=dhuTotalMin%60
+      if (dhuHour>0||dhuMin>0){
+        TimerDhuhr.innerHTML="Time Until Dhuhr: "+dhuHour+" hr and "+dhuMin+" min"
+      }
+
+      asrHour=(asr[0]+asr[1]-hour)*60
+      asrMin=(asr[3]+asr[4])-min
+      asrTotalMin=(asrHour+asrMin)
+      asrHour=Math.floor(asrTotalMin/60)
+      asrMin=asrTotalMin%60
+      if (asrHour>0||asrMin>0){
+        TimerAsr.innerHTML="Time Until Asr: "+asrHour+" hr and "+asrMin+" min"
+      }
+
+      magHour=(mag[0]+mag[1]-hour)*60
+      magMin=(mag[3]+mag[4])-min
+      magTotalMin=(magHour+magMin)
+      magHour=Math.floor(magTotalMin/60)
+      magMin=magTotalMin%60
+      if (magHour>0||magMin>0){
+          TimerMaghrib.innerHTML="Time Until Maghrib: "+magHour+" hr and "+magMin+" min"
+      }
+
+      ishHour=(ish[0]+ish[1]-hour)*60
+      ishMin=(ish[3]+ish[4])-min
+      ishTotalMin=(ishHour+ishMin)
+      ishHour=Math.floor(ishTotalMin/60)
+      ishMin=ishTotalMin%60
+      if (ishHour>0||ishMin>0){
+      TimerIsha.innerHTML="Time Until Isha: "+ishHour+" hrs "+ishMin+" Mins"
+
+
+      
+
+      }
+    }
+
+   
+  }
+  );
+
+
+      
+  
+  }
+  setInterval(time,1000)
+  </script>
+</html>
+

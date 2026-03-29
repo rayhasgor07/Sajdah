@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SAJDAH — Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root {
+      --bg:        #050d12;
+      --card:      rgba(10,35,48,0.82);
+      --glass:     rgba(0,220,200,0.13);
+      --neon:      #00dcc8;
+      --neon-dim:  rgba(0,220,200,0.32);
+      --neon-glow: 0 0 18px rgba(0,220,200,0.55), 0 0 40px rgba(0,220,200,0.18);
+      --neon-sm:   0 0 8px rgba(0,220,200,0.45);
+      --gold:      #ffd166;
+      --danger:    #ff6b6b;
+      --green:     #4ade80;
+      --text:      #e8f4f8;
+      --muted:     rgba(200,230,240,0.55);
+      --font:      'Rajdhani', sans-serif;
+      --arabic:    'Noto Naskh Arabic', serif;
+      --r:         18px;
+      --spring:    0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,220,200,0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 95% 100%, rgba(0,180,255,0.07) 0%, transparent 55%);
+      font-family: var(--font);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+    header {
+      display:flex; align-items:center; justify-content:center; height:62px;
+      background:linear-gradient(180deg,rgba(0,220,200,0.07) 0%,transparent 100%);
+      border-bottom:1px solid var(--glass); backdrop-filter:blur(20px);
+      position:sticky; top:0; z-index:100;
+    }
+    header span { font-size:1.4rem; font-weight:700; letter-spacing:0.25em; color:var(--neon); text-shadow:var(--neon-sm); }
+    .nav-row {
+      display:flex; gap:4px; padding:6px 8px;
+      background:rgba(5,18,28,0.95); backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--glass); justify-content:center; flex-wrap:wrap;
+    }
+    .nav-btn {
+      text-decoration:none; color:var(--muted); border-radius:14px;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      background:rgba(0,220,200,0.06); border:1px solid rgba(0,220,200,0.1);
+      text-align:center; margin:3px; width:18%; min-height:54px;
+      font-size:0.55rem; font-weight:700; letter-spacing:0.08em;
+      text-transform:uppercase; transition:var(--spring); gap:3px; padding:6px 2px;
+    }
+    .nav-btn i { font-size:0.95rem; }
+    .nav-btn:hover { background:rgba(0,220,200,0.14); border-color:var(--neon-dim); color:var(--neon); transform:translateY(-2px); }
+    .nav-btn.active { background:rgba(0,180,140,0.25); border-color:var(--neon); color:var(--neon); box-shadow:var(--neon-sm); }
+    .page { max-width:480px; margin:0 auto; padding:0 14px; }
+
+    /* Sign-in */
+    #signin-screen {
+      display:flex; flex-direction:column; align-items:center;
+      justify-content:center; min-height:75vh; gap:18px;
+      animation:fadeUp 0.6s ease both;
+    }
+    .signin-logo {
+      width:88px; height:88px; border-radius:26px;
+      background:linear-gradient(135deg,rgba(0,220,200,0.2),rgba(0,100,80,0.3));
+      border:1px solid var(--glass); display:flex; align-items:center; justify-content:center;
+      font-size:2.4rem; box-shadow:var(--neon-glow),0 20px 60px rgba(0,0,0,0.5);
+      animation:float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .signin-title { font-size:2.2rem; font-weight:700; color:var(--neon); text-shadow:var(--neon-sm); letter-spacing:0.15em; }
+    .signin-sub { color:var(--muted); font-size:0.9rem; text-align:center; line-height:1.6; max-width:260px; }
+    .signin-features { display:flex; flex-direction:column; gap:8px; width:100%; max-width:280px; }
+    .signin-feat { display:flex; align-items:center; gap:12px; background:rgba(0,220,200,0.05); border:1px solid var(--glass); border-radius:12px; padding:10px 14px; font-size:0.8rem; color:var(--muted); }
+    .signin-feat i { color:var(--neon); font-size:0.95rem; width:16px; text-align:center; }
+    .google-btn {
+      display:flex; align-items:center; gap:12px; background:white; color:#1a1a1a;
+      border:none; border-radius:40px; padding:14px 32px;
+      font-size:1rem; font-weight:700; font-family:var(--font); letter-spacing:0.05em;
+      cursor:pointer; box-shadow:0 4px 24px rgba(0,0,0,0.5);
+      transition:var(--spring); width:100%; max-width:280px; justify-content:center;
+    }
+    .google-btn:hover { transform:translateY(-3px) scale(1.03); box-shadow:0 12px 36px rgba(0,0,0,0.5); }
+    .google-btn img { width:22px; height:22px; }
+
+    /* App screen */
+    #app-screen { display:none; animation:fadeUp 0.5s ease both; }
+
+    .profile-card {
+      background:var(--card); border:1px solid var(--glass); border-radius:var(--r);
+      padding:18px; margin:16px 0 10px; backdrop-filter:blur(16px);
+      box-shadow:0 8px 32px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.04);
+      display:flex; align-items:center; gap:14px; position:relative; overflow:hidden;
+    }
+    .profile-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--neon-dim),transparent); }
+    .avatar { width:54px; height:54px; border-radius:50%; border:2px solid var(--neon-dim); box-shadow:var(--neon-sm); object-fit:cover; flex-shrink:0; }
+    .avatar-placeholder { width:54px; height:54px; border-radius:50%; border:2px solid var(--neon-dim); background:rgba(0,220,200,0.1); display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:var(--neon); flex-shrink:0; }
+    .profile-info { flex:1; }
+    .profile-name { font-size:1.15rem; font-weight:700; }
+    .profile-joined { font-size:0.7rem; color:var(--muted); margin-top:3px; }
+    .signout-btn { background:transparent; border:1px solid rgba(255,107,107,0.3); color:var(--danger); border-radius:20px; padding:6px 14px; font-family:var(--font); font-size:0.68rem; font-weight:700; letter-spacing:0.1em; cursor:pointer; transition:0.3s; }
+    .signout-btn:hover { background:rgba(255,107,107,0.12); border-color:var(--danger); }
+
+    .section-title {
+      font-size:0.67rem; font-weight:700; letter-spacing:0.2em;
+      text-transform:uppercase; color:var(--muted);
+      margin:22px 0 10px 2px; display:flex; align-items:center; gap:8px;
+    }
+    .section-title::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--glass),transparent); }
+
+    /* Stats */
+    .stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+    .stat-card {
+      background:var(--card); border:1px solid var(--glass); border-radius:14px;
+      padding:14px 10px; text-align:center; backdrop-filter:blur(12px);
+      box-shadow:0 4px 16px rgba(0,0,0,0.35); position:relative; overflow:hidden;
+      transition:var(--spring);
+    }
+    .stat-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.4),var(--neon-sm); border-color:var(--neon-dim); }
+    .stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--neon-dim),transparent); }
+    .stat-num { font-size:1.8rem; font-weight:700; line-height:1; }
+    .stat-num.gold  { color:var(--gold);  text-shadow:0 0 12px rgba(255,209,102,0.4); }
+    .stat-num.neon  { color:var(--neon);  text-shadow:var(--neon-sm); }
+    .stat-num.green { color:var(--green); text-shadow:0 0 12px rgba(74,222,128,0.4); }
+    .stat-label { font-size:0.58rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase; margin-top:5px; line-height:1.3; }
+
+    /* Streak */
+    .streak-banner {
+      background:linear-gradient(135deg,rgba(255,209,102,0.1) 0%,rgba(255,150,50,0.07) 100%);
+      border:1px solid rgba(255,209,102,0.22); border-radius:var(--r);
+      padding:18px 20px; display:flex; align-items:center; gap:16px;
+      backdrop-filter:blur(12px); position:relative; overflow:hidden;
+    }
+    .streak-banner::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(255,209,102,0.4),transparent); }
+    .streak-left { display:flex; flex-direction:column; align-items:center; gap:1px; flex-shrink:0; min-width:60px; }
+    .streak-fire { font-size:2rem; }
+    .streak-num  { font-size:2.6rem; font-weight:700; color:var(--gold); line-height:1; text-shadow:0 0 16px rgba(255,209,102,0.5); }
+    .streak-unit { font-size:0.58rem; color:rgba(255,209,102,0.7); letter-spacing:0.12em; text-transform:uppercase; }
+    .streak-divider { width:1px; height:52px; background:rgba(255,209,102,0.2); flex-shrink:0; }
+    .streak-right { flex:1; }
+    .streak-title { font-size:0.88rem; font-weight:700; color:var(--gold); letter-spacing:0.06em; }
+    .streak-sub   { font-size:0.73rem; color:var(--muted); margin-top:5px; line-height:1.4; }
+    .streak-best  { font-size:0.68rem; color:rgba(255,209,102,0.55); margin-top:6px; }
+
+    /* Week */
+    .week-wrap { background:var(--card); border:1px solid var(--glass); border-radius:var(--r); padding:16px; backdrop-filter:blur(12px); }
+    .week-strip { display:flex; gap:4px; }
+    .week-day { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .week-label { font-size:0.54rem; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase; }
+    .week-dot {
+      width:100%; aspect-ratio:1; border-radius:9px; max-width:38px;
+      border:1px solid rgba(255,255,255,0.06);
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.62rem; font-weight:700; color:var(--muted);
+      transition:0.3s ease; background:rgba(255,255,255,0.03);
+    }
+    .week-dot.full    { background:linear-gradient(135deg,rgba(0,220,200,0.3),rgba(0,180,200,0.15)); border-color:var(--neon-dim); color:var(--neon); box-shadow:var(--neon-sm); }
+    .week-dot.partial { background:rgba(255,209,102,0.1); border-color:rgba(255,209,102,0.3); color:var(--gold); }
+    .week-dot.missed  { background:rgba(255,107,107,0.06); border-color:rgba(255,107,107,0.18); color:rgba(255,107,107,0.45); }
+    .week-dot.today-ring { box-shadow:0 0 0 2px var(--neon),var(--neon-sm); border-color:var(--neon); }
+    .week-count { font-size:0.52rem; color:var(--muted); }
+
+    /* Progress */
+    .progress-wrap { background:var(--card); border:1px solid var(--glass); border-radius:14px; padding:16px 18px; backdrop-filter:blur(12px); }
+    .progress-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .progress-label { font-size:0.76rem; font-weight:600; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; }
+    .progress-frac  { font-size:1.1rem; font-weight:700; color:var(--neon); text-shadow:var(--neon-sm); }
+    .progress-track { height:8px; background:rgba(255,255,255,0.05); border-radius:99px; overflow:hidden; }
+    .progress-fill  { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--neon),#00b4ff); box-shadow:0 0 12px rgba(0,220,200,0.5); transition:width 0.7s cubic-bezier(0.34,1.56,0.64,1); width:0%; }
+
+    .date-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding:0 2px; }
+    .date-today { font-size:0.98rem; font-weight:700; }
+    .date-hijri { font-size:0.73rem; color:var(--neon); text-shadow:var(--neon-sm); }
+
+    /* Prayer list */
+    .prayer-list { display:flex; flex-direction:column; gap:9px; }
+    .prayer-item {
+      background:var(--card); border:1px solid var(--glass); border-radius:14px;
+      display:flex; align-items:center; gap:13px; padding:13px 15px;
+      backdrop-filter:blur(12px); cursor:pointer; transition:var(--spring);
+      box-shadow:0 4px 16px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.03);
+      user-select:none; position:relative; overflow:hidden;
+    }
+    .prayer-item::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:0 2px 2px 0; background:var(--glass); transition:0.3s; }
+    .prayer-item:hover  { transform:translateX(4px) scale(1.01); }
+    .prayer-item:active { transform:scale(0.98); }
+    .prayer-item.done   { background:rgba(0,220,200,0.07); border-color:rgba(0,220,200,0.28); box-shadow:0 4px 20px rgba(0,0,0,0.3),var(--neon-sm); }
+    .prayer-item.done::before { background:var(--neon); box-shadow:0 0 10px var(--neon); }
+    .prayer-check { width:28px; height:28px; border-radius:50%; border:2px solid var(--glass); display:flex; align-items:center; justify-content:center; font-size:0.85rem; color:transparent; transition:var(--spring); flex-shrink:0; }
+    .prayer-item.done .prayer-check { background:var(--neon); border-color:var(--neon); color:#050d12; box-shadow:var(--neon-sm); animation:checkPop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes checkPop { 0%{transform:scale(0.4)} 60%{transform:scale(1.25)} 100%{transform:scale(1)} }
+    .prayer-arabic { font-family:var(--arabic); font-size:1.2rem; color:var(--gold); line-height:1; flex-shrink:0; width:34px; text-align:center; }
+    .prayer-meta { flex:1; }
+    .prayer-name { font-size:0.93rem; font-weight:700; letter-spacing:0.08em; }
+    .prayer-item.done .prayer-name { color:var(--neon); }
+    .prayer-time { font-size:0.68rem; color:var(--muted); margin-top:2px; }
+    .prayer-rakats { font-size:0.63rem; color:var(--muted); }
+    .prayer-item.done .prayer-rakats { color:var(--neon-dim); }
+
+    /* Monthly calendar */
+    .month-wrap { background:var(--card); border:1px solid var(--glass); border-radius:var(--r); padding:16px; backdrop-filter:blur(12px); }
+    .month-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .month-title  { font-size:0.88rem; font-weight:700; letter-spacing:0.1em; }
+    .month-nav { display:flex; gap:6px; }
+    .month-nav-btn { background:rgba(0,220,200,0.08); border:1px solid var(--glass); color:var(--neon); border-radius:8px; width:28px; height:28px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.72rem; transition:0.2s; font-family:var(--font); }
+    .month-nav-btn:hover { background:rgba(0,220,200,0.2); }
+    .month-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+    .month-day-label { font-size:0.52rem; color:var(--muted); text-align:center; padding:3px 0; letter-spacing:0.05em; text-transform:uppercase; }
+    .month-day {
+      aspect-ratio:1; border-radius:7px; font-size:0.62rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid transparent; transition:0.2s; position:relative;
+    }
+    .month-day.empty   { background:transparent; }
+    .month-day.future  { color:rgba(255,255,255,0.1); background:rgba(255,255,255,0.02); }
+    .month-day.no-data { background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.2); }
+    .month-day.partial { background:rgba(255,209,102,0.12); border-color:rgba(255,209,102,0.2); color:var(--gold); }
+    .month-day.full    { background:linear-gradient(135deg,rgba(0,220,200,0.25),rgba(0,180,200,0.15)); border-color:rgba(0,220,200,0.3); color:var(--neon); }
+    .month-day.today-cell { box-shadow:0 0 0 2px var(--neon); }
+    .month-legend { display:flex; gap:12px; margin-top:12px; justify-content:center; }
+    .legend-item { display:flex; align-items:center; gap:5px; font-size:0.6rem; color:var(--muted); }
+    .legend-dot { width:10px; height:10px; border-radius:3px; }
+    .legend-dot.full    { background:rgba(0,220,200,0.4); }
+    .legend-dot.partial { background:rgba(255,209,102,0.4); }
+    .legend-dot.none    { background:rgba(255,255,255,0.1); }
+
+    /* Quote */
+    .quote-card { background:linear-gradient(135deg,rgba(0,100,80,0.18) 0%,rgba(0,50,60,0.25) 100%); border:1px solid rgba(0,220,200,0.12); border-radius:var(--r); padding:20px; text-align:center; backdrop-filter:blur(12px); }
+    .quote-arabic  { font-family:var(--arabic); font-size:1.2rem; color:var(--gold); line-height:1.9; margin-bottom:8px; direction:rtl; }
+    .quote-text    { font-size:0.8rem; color:var(--muted); line-height:1.6; font-style:italic; }
+    .quote-source  { font-size:0.67rem; color:var(--neon); margin-top:8px; letter-spacing:0.08em; }
+
+    /* Toast */
+    .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(80px); background:rgba(0,25,35,0.97); border:1px solid var(--neon-dim); border-radius:40px; padding:11px 22px; font-size:0.83rem; font-weight:600; color:var(--neon); box-shadow:var(--neon-glow),0 8px 32px rgba(0,0,0,0.6); backdrop-filter:blur(16px); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s ease; opacity:0; pointer-events:none; z-index:999; white-space:nowrap; }
+    .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+
+    .footer { display:flex; justify-content:center; background:rgba(5,18,28,0.96); border-top:1px solid var(--glass); padding:10px 0; margin-top:32px; }
+    .footer a i { font-size:22px; margin:10px 16px; color:var(--muted); transition:0.3s; }
+    .footer a:hover i { color:var(--neon); text-shadow:var(--neon-sm); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-track { background:var(--bg); } ::-webkit-scrollbar-thumb { background:var(--glass); border-radius:4px; }
+    ::selection { background:rgba(0,220,200,0.25); color:var(--neon); }
+  </style>
+</head>
+<body>
+
+<header><span>SAJDAH</span></header>
+
+<!--Navigation Bar-->
+    <div style="display: flex; flex-direction: row; justify-content: center; background-color: skyblue;">
+      <a id="buttons" href="../index.html"><text>HOME</text><i class="fa-solid fa-house"></i></a>
+      <a id="buttons" href="./quran.html"><text>QURAN</text><i class="fa-solid fa-book-quran"></i></a>
+      <a id="buttons" href="./dua.html"><text>DUAS</text><i class="fa-solid fa-hands-praying"></i></a>
+      <a id="buttons" href="./kursi.html"><text>AYATUL KURSI</text><i class="fa-solid fa-hand-point-up"></i></a>
+    </div>
+
+    <div style="display: flex; flex-direction: row; justify-content: center; background-color: skyblue;">
+      <a id="buttons" href="./prophets.html"><text>PROPHETS</text><i class="fa-solid fa-mosque"></i></a>
+      <a id="buttons" href="./masjid.html"><text>MASJID</text><i class="fa-solid fa-mosque"></i></a>
+      <a id="buttons" href="./timings.html"><text>TIMINGS</text><i class="fa-solid fa-calendar-days"></i></a>
+      <a id="buttons" href="./hadith.html"><text>HADITHS</text><i class="fa-solid fa-scroll"></i></a>
+    </div>
+
+    <div style="display: flex; flex-direction: row; justify-content: center; background-color: skyblue;">
+      <a id="buttons" href="./extra.html"><text>EXTRA</text><i class="fa-solid fa-gear"></i></a>
+        <a id="buttons" style="background-color: darkcyan;" href="./profile.html">
+    <text style="margin-top: 10px">PROFILE</text>
+    <i style="margin-bottom: 10px"  class="fa-solid fa-user"></i>
+  </a>
+    </div>
+
+<div class="page">
+
+  <!-- SIGN-IN -->
+  <div id="signin-screen">
+    <div class="signin-logo">🕌</div>
+    <div class="signin-title">SAJDAH</div>
+    <div class="signin-sub">Sign in to track your prayers, build streaks, and see your progress over time.</div>
+    <div class="signin-features">
+      <div class="signin-feat"><i class="fa-solid fa-check-circle"></i>Daily prayer checklist — tap to log each prayer</div>
+      <div class="signin-feat"><i class="fa-solid fa-fire"></i>Streak counter — tracks consecutive full days</div>
+      <div class="signin-feat"><i class="fa-solid fa-chart-bar"></i>Monthly calendar + lifetime completion stats</div>
+      <div class="signin-feat"><i class="fa-solid fa-cloud"></i>Saved to your account — syncs across devices</div>
+    </div>
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G"/>
+      Continue with Google
+    </button>
+  </div>
+
+  <!-- APP -->
+  <div id="app-screen">
+
+    <!-- Profile card -->
+    <div class="profile-card">
+      <img id="user-avatar" class="avatar" src="" alt="" style="display:none"/>
+      <div id="user-avatar-placeholder" class="avatar-placeholder"><i class="fa-solid fa-user"></i></div>
+      <div class="profile-info">
+        <div class="profile-name" id="user-name">—</div>
+        <div class="profile-joined" id="user-joined">—</div>
+      </div>
+      <button class="signout-btn" onclick="signOut()">SIGN OUT</button>
+    </div>
+
+    <!-- Streak -->
+    <div class="section-title">Streak</div>
+    <div class="streak-banner">
+      <div class="streak-left">
+        <div class="streak-fire">🔥</div>
+        <div class="streak-num" id="streak-count">0</div>
+        <div class="streak-unit">Days</div>
+      </div>
+      <div class="streak-divider"></div>
+      <div class="streak-right">
+        <div class="streak-title" id="streak-title">START YOUR STREAK</div>
+        <div class="streak-sub"   id="streak-sub">Complete all 5 prayers today to begin</div>
+        <div class="streak-best"  id="streak-best">Best: 0 days</div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="section-title">All-Time Stats</div>
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num gold"  id="stat-total">0</div>
+        <div class="stat-label">Prayers Logged</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num neon"  id="stat-full">0</div>
+        <div class="stat-label">Perfect Days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num green" id="stat-pct">0%</div>
+        <div class="stat-label">Completion Rate</div>
+      </div>
+    </div>
+
+    <!-- This week -->
+    <div class="section-title">This Week</div>
+    <div class="week-wrap">
+      <div class="week-strip" id="week-strip"></div>
+    </div>
+
+    <!-- Today -->
+    <div class="section-title">Today's Prayers</div>
+    <div class="progress-wrap" style="margin-bottom:10px;">
+      <div class="progress-top">
+        <span class="progress-label">Daily Progress</span>
+        <span class="progress-frac"><span id="done-count">0</span> / 5 prayed</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+    <div class="date-bar">
+      <div class="date-today" id="date-today">—</div>
+      <div class="date-hijri" id="date-hijri">—</div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; padding:0 2px;">
+      <div id="save-status" style="font-size:0.75rem; font-weight:600; letter-spacing:0.05em; transition:0.3s;"></div>
+      <button onclick="manualSave()" style="background:rgba(0,220,200,0.12); border:1px solid var(--neon-dim); color:var(--neon); border-radius:20px; padding:7px 18px; font-family:var(--font); font-size:0.72rem; font-weight:700; letter-spacing:0.1em; cursor:pointer; transition:0.3s;" onmouseover="this.style.background='rgba(0,220,200,0.25)'" onmouseout="this.style.background='rgba(0,220,200,0.12)'">
+        <i class="fa-solid fa-cloud-arrow-up" style="margin-right:6px;"></i>SAVE
+      </button>
+    </div>
+    <div class="prayer-list" id="prayer-list"></div>
+
+    <!-- Monthly calendar -->
+    <div class="section-title">Monthly View</div>
+    <div class="month-wrap">
+      <div class="month-header">
+        <div class="month-title" id="month-title">—</div>
+        <div class="month-nav">
+          <button class="month-nav-btn" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="month-nav-btn" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="month-grid" id="month-grid"></div>
+      <div class="month-legend">
+        <div class="legend-item"><div class="legend-dot full"></div>All 5</div>
+        <div class="legend-item"><div class="legend-dot partial"></div>Partial</div>
+        <div class="legend-item"><div class="legend-dot none"></div>None</div>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="section-title">Daily Reminder</div>
+    <div class="quote-card">
+      <div class="quote-arabic"  id="quote-arabic"></div>
+      <div class="quote-text"    id="quote-text"></div>
+      <div class="quote-source"  id="quote-source"></div>
+    </div>
+
+  </div><!-- end app-screen -->
+</div><!-- end page -->
+
+<div class="toast" id="toast"></div>
+
+<div class="footer">
+  <a href="https://www.youtube.com/@RocketRoni2007"><i class="fa-brands fa-youtube"></i></a>
+  <a href="https://www.tiktok.com/@rocketroni2007"><i class="fa-brands fa-tiktok"></i></a>
+</div>
+
+<script type="module">
+  import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as fbSignOut }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey:"AIzaSyBhzam8cR7Ckm2CpEc4durWrY5_CAlnQV4",
+    authDomain:"sajdah2.firebaseapp.com",
+    projectId:"sajdah2",
+    storageBucket:"sajdah2.firebasestorage.app",
+    messagingSenderId:"895997229188",
+    appId:"1:895997229188:web:758825ac716fc2070cead1"
+  };
+
+  const app      = initializeApp(firebaseConfig);
+  const auth     = getAuth(app);
+  const db       = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  const PRAYERS = [
+    { id:"fajr",    name:"FAJR",    arabic:"فجر",  rakats:"2 rakats", timeLabel:"Before sunrise" },
+    { id:"dhuhr",   name:"DHUHR",   arabic:"ظهر",  rakats:"4 rakats", timeLabel:"Midday"         },
+    { id:"asr",     name:"ASR",     arabic:"عصر",  rakats:"4 rakats", timeLabel:"Afternoon"      },
+    { id:"maghrib", name:"MAGHRIB", arabic:"مغرب", rakats:"3 rakats", timeLabel:"After sunset"   },
+    { id:"isha",    name:"ISHA",    arabic:"عشاء", rakats:"4 rakats", timeLabel:"Night"          },
+  ];
+
+  const QUOTES = [
+    { arabic:"إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ", text:'"Prayer prohibits immorality and wrongdoing."', source:"Surah Al-Ankabut 29:45" },
+    { arabic:"حَافِظُوا عَلَى الصَّلَوَاتِ وَالصَّلَاةِ الْوُسْطَىٰ", text:'"Maintain with care the obligatory prayers and the middle prayer."', source:"Surah Al-Baqarah 2:238" },
+    { arabic:"الصَّلَاةُ عِمَادُ الدِّينِ", text:'"Prayer is the pillar of religion. Whoever establishes it has established religion."', source:"Hadith — Al-Bayhaqi" },
+    { arabic:"أَوَّلُ مَا يُحَاسَبُ بِهِ الْعَبْدُ الصَّلَاةُ", text:'"The first thing a person will be held accountable for on the Day of Judgment is prayer."', source:"Hadith — Abu Dawud" },
+    { arabic:"وَأَقِمِ الصَّلَاةَ لِذِكْرِي", text:'"Establish prayer for My remembrance."', source:"Surah Ta-Ha 20:14" },
+    { arabic:"مَنْ حَافَظَ عَلَيْهَا كَانَتْ لَهُ نُورًا وَبُرْهَانًا", text:'"Whoever guards the prayer, it will be a light and a proof for him."', source:"Hadith — Ahmad" },
+    { arabic:"الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ", text:'"The strong believer is better and more beloved to Allah than the weak believer."', source:"Hadith — Muslim" },
+  ];
+
+  // ── State ──────────────────────────────────────────────
+  let UID  = null;
+  let DATA = null;
+  let monthOffset = 0;
+
+  const todayKey = () => new Date().toISOString().slice(0,10);
+
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg; t.classList.add("show");
+    setTimeout(() => t.classList.remove("show"), 2800);
+  }
+  function isDayComplete(d) { return d && PRAYERS.every(p => !!d[p.id]); }
+  function countDay(d)      { return d ? PRAYERS.filter(p => !!d[p.id]).length : 0; }
+
+  // ── Auth ───────────────────────────────────────────────
+  window.signInWithGoogle = async () => {
+    try { await signInWithPopup(auth, provider); }
+    catch(e) { showToast("Sign-in failed — allow popups and try again"); }
+  };
+  window.signOut = async () => fbSignOut(auth);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      UID = user.uid;
+      document.getElementById("signin-screen").style.display = "none";
+      document.getElementById("app-screen").style.display    = "block";
+
+      // Profile
+      document.getElementById("user-name").textContent = user.displayName || "Anonymous";
+      document.getElementById("user-joined").textContent = user.metadata.creationTime
+        ? "Member since " + new Date(user.metadata.creationTime).toLocaleDateString("en-US",{month:"long",year:"numeric"})
+        : "";
+      if (user.photoURL) {
+        const img = document.getElementById("user-avatar");
+        img.src = user.photoURL; img.style.display = "block";
+        document.getElementById("user-avatar-placeholder").style.display = "none";
+      }
+
+      // Date
+      document.getElementById("date-today").textContent =
+        new Date().toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+
+      // Hijri
+      try {
+        const d = new Date();
+        const s = `${String(d.getDate()).padStart(2,"0")}-${String(d.getMonth()+1).padStart(2,"0")}-${d.getFullYear()}`;
+        const r = await fetch(`https://api.aladhan.com/v1/gToH/${s}`);
+        const j = await r.json();
+        if (j.data?.hijri) {
+          const h = j.data.hijri;
+          document.getElementById("date-hijri").textContent = `${h.day} ${h.month.en} ${h.year} AH`;
+        }
+      } catch(e) {}
+
+      // Quote — rotates daily
+      const q = QUOTES[new Date().getDate() % QUOTES.length];
+      document.getElementById("quote-arabic").textContent = q.arabic;
+      document.getElementById("quote-text").textContent   = q.text;
+      document.getElementById("quote-source").textContent = q.source;
+
+      await loadAndRender();
+    } else {
+      UID = null; DATA = null;
+      document.getElementById("signin-screen").style.display = "flex";
+      document.getElementById("app-screen").style.display    = "none";
+    }
+  });
+
+  // ── Load data ──────────────────────────────────────────
+  async function loadAndRender() {
+    const today = todayKey();
+    try {
+      const snap = await getDoc(doc(db,"users",UID));
+      DATA = snap.exists() ? snap.data() : { prayers:{}, streak:0, bestStreak:0, lastFullDay:null };
+      if (!DATA.prayers)    DATA.prayers    = {};
+      if (!DATA.bestStreak) DATA.bestStreak = DATA.streak || 0;
+    } catch(e) {
+      const local = localStorage.getItem("sajdah_"+UID);
+      DATA = local ? JSON.parse(local) : { prayers:{}, streak:0, bestStreak:0, lastFullDay:null };
+    }
+    if (!DATA.prayers[today]) DATA.prayers[today] = {};
+
+    // Always recalc streak from actual data — this fixes the refresh bug
+    recalcStreak();
+    renderAll();
+  }
+
+  function saveData() {
+    try { localStorage.setItem("sajdah_"+UID, JSON.stringify(DATA)); } catch(e) {}
+  }
+
+  // ── Streak recalc ─────────────────────────────────────
+  // Walks back through DATA.prayers day by day to count consecutive full days.
+  // Today being incomplete does NOT break the streak (you still have time).
+  function recalcStreak() {
+    const today = todayKey();
+    let streak  = 0;
+    const d     = new Date();
+
+    // If today is complete count it, then walk back
+    // If today is incomplete, start walking from yesterday
+    if (isDayComplete(DATA.prayers[today])) {
+      streak = 1;
+      d.setDate(d.getDate() - 1);
+    } else {
+      d.setDate(d.getDate() - 1);
+    }
+
+    // Walk back as far as data exists
+    for (let i = 0; i < 365; i++) {
+      const key = d.toISOString().slice(0,10);
+      if (isDayComplete(DATA.prayers[key])) {
+        streak++;
+        d.setDate(d.getDate() - 1);
+      } else break;
+    }
+
+    DATA.streak     = streak;
+    DATA.bestStreak = Math.max(streak, DATA.bestStreak || 0);
+    if (isDayComplete(DATA.prayers[today])) DATA.lastFullDay = today;
+  }
+
+  // ── Render all ─────────────────────────────────────────
+  function renderAll() {
+    const today = todayKey();
+    renderPrayerList(today);
+    updateProgress(today);
+    renderStreakBanner(today);
+    renderStats();
+    renderWeek();
+    renderMonth();
+  }
+
+  // ── Prayer list ────────────────────────────────────────
+  function renderPrayerList(today) {
+    const list = document.getElementById("prayer-list");
+    list.innerHTML = "";
+    PRAYERS.forEach(p => {
+      const done = !!DATA.prayers[today]?.[p.id];
+      const el   = document.createElement("div");
+      el.className = "prayer-item" + (done ? " done" : "");
+      el.id        = "prayer-" + p.id;
+      el.innerHTML = `
+        <div class="prayer-check"><i class="fa-solid fa-check"></i></div>
+        <div class="prayer-arabic">${p.arabic}</div>
+        <div class="prayer-meta">
+          <div class="prayer-name">${p.name}</div>
+          <div class="prayer-time">${p.timeLabel}</div>
+        </div>
+        <div class="prayer-rakats">${p.rakats}</div>
+      `;
+      el.addEventListener("click", () => togglePrayer(today, p.id));
+      list.appendChild(el);
+    });
+  }
+
+  async function togglePrayer(today, id) {
+    const was = !!DATA.prayers[today]?.[id];
+    DATA.prayers[today][id] = !was;
+
+    document.getElementById("prayer-" + id).classList.toggle("done", !was);
+
+    updateProgress(today);
+    recalcStreak();
+    renderStreakBanner(today);
+    renderStats();
+    renderWeek();
+    renderMonth();
+    saveData();
+
+    await saveToFirestore(!was ? id : null);
+  }
+
+  function setSaveStatus(state) {
+    const el = document.getElementById("save-status");
+    if (!el) return;
+    if (state === "saving") {
+      el.textContent = "⏳ Saving...";
+      el.style.color = "var(--muted)";
+    } else if (state === "saved") {
+      el.textContent = "✅ Saved!";
+      el.style.color = "var(--green)";
+      setTimeout(() => { el.textContent = ""; }, 2000);
+    } else if (state === "error") {
+      el.textContent = "⚠️ Save failed — check your internet";
+      el.style.color = "var(--danger)";
+    }
+  }
+
+  async function saveToFirestore(completedPrayerName) {
+    setSaveStatus("saving");
+    try {
+      // setDoc with merge:true creates the document if it doesn't exist yet
+      await setDoc(doc(db,"users",UID), {
+        prayers: DATA.prayers,
+        streak: DATA.streak,
+        bestStreak: DATA.bestStreak,
+        lastFullDay: DATA.lastFullDay ?? null
+      }, { merge: true });
+      setSaveStatus("saved");
+      if (completedPrayerName) {
+        showToast(completedPrayerName[0].toUpperCase() + completedPrayerName.slice(1) + " ✓  Saved to cloud");
+      }
+    } catch(e) {
+      setSaveStatus("error");
+      showToast("⚠️ Could not save — check internet or sign in again");
+      console.error("Firestore save error:", e);
+    }
+  }
+
+  window.manualSave = async () => {
+    await saveToFirestore(null);
+  };
+
+  // ── Progress bar ───────────────────────────────────────
+  function updateProgress(today) {
+    const n = countDay(DATA.prayers[today]);
+    document.getElementById("done-count").textContent    = n;
+    document.getElementById("progress-fill").style.width = (n/5*100) + "%";
+  }
+
+  // ── Streak banner ──────────────────────────────────────
+  function renderStreakBanner(today) {
+    const s    = DATA.streak || 0;
+    const best = DATA.bestStreak || 0;
+    const done = isDayComplete(DATA.prayers[today]);
+    document.getElementById("streak-count").textContent = s;
+    document.getElementById("streak-best").textContent  = `Best: ${best} day${best!==1?"s":""}`;
+    if (s === 0) {
+      document.getElementById("streak-title").textContent = "START YOUR STREAK";
+      document.getElementById("streak-sub").textContent   = "Complete all 5 prayers today to begin";
+    } else if (done) {
+      document.getElementById("streak-title").textContent = s===1 ? "STREAK STARTED! 🔥" : `${s}-DAY STREAK! 🔥`;
+      document.getElementById("streak-sub").textContent   = "All 5 prayers done today — keep it up!";
+    } else {
+      document.getElementById("streak-title").textContent = `${s}-DAY STREAK`;
+      document.getElementById("streak-sub").textContent   = "Finish today's prayers to keep your streak";
+    }
+  }
+
+  // ── Stats ──────────────────────────────────────────────
+  function renderStats() {
+    const allDays   = Object.values(DATA.prayers);
+    const total     = allDays.reduce((a,d) => a + countDay(d), 0);
+    const fullDays  = allDays.filter(d => isDayComplete(d)).length;
+    const possible  = allDays.length * 5;
+    const pct       = possible > 0 ? Math.round(total/possible*100) : 0;
+    document.getElementById("stat-total").textContent = total;
+    document.getElementById("stat-full").textContent  = fullDays;
+    document.getElementById("stat-pct").textContent   = pct + "%";
+  }
+
+  // ── Week strip ─────────────────────────────────────────
+  function renderWeek() {
+    const today  = todayKey();
+    const strip  = document.getElementById("week-strip");
+    const labels = ["M","T","W","T","F","S","S"];
+    const now    = new Date();
+    const dow    = (now.getDay() + 6) % 7;
+    const days   = [];
+    for (let i=0;i<7;i++) {
+      const d = new Date(now); d.setDate(now.getDate()-dow+i);
+      days.push(d.toISOString().slice(0,10));
+    }
+    strip.innerHTML = "";
+    days.forEach((key,i) => {
+      const n      = countDay(DATA.prayers[key] || {});
+      const isTod  = key === today;
+      const isFut  = key > today;
+      let dotClass = "week-dot";
+      let label    = "";
+      if (!isFut) {
+        if (n===5)     { dotClass += " full";    label="✓"; }
+        else if (n>0)  { dotClass += " partial"; label=n;   }
+        else           { dotClass += " missed";  label="·"; }
+      }
+      if (isTod) dotClass += " today-ring";
+      strip.innerHTML += `
+        <div class="week-day">
+          <div class="week-label">${labels[i]}</div>
+          <div class="${dotClass}">${label}</div>
+          <div class="week-count">${isFut?"":n+"/5"}</div>
+        </div>`;
+    });
+  }
+
+  // ── Monthly calendar ───────────────────────────────────
+  window.changeMonth = (dir) => { monthOffset += dir; renderMonth(); };
+
+  function renderMonth() {
+    const now   = new Date();
+    const ref   = new Date(now.getFullYear(), now.getMonth()+monthOffset, 1);
+    const today = todayKey();
+    document.getElementById("month-title").textContent =
+      ref.toLocaleDateString("en-US",{month:"long",year:"numeric"});
+
+    const labels   = ["M","T","W","T","F","S","S"];
+    let html       = labels.map(l=>`<div class="month-day-label">${l}</div>`).join("");
+    const startDow = (new Date(ref.getFullYear(),ref.getMonth(),1).getDay()+6)%7;
+    const dim      = new Date(ref.getFullYear(),ref.getMonth()+1,0).getDate();
+
+    for (let i=0;i<startDow;i++) html += `<div class="month-day empty"></div>`;
+    for (let d=1;d<=dim;d++) {
+      const key  = `${ref.getFullYear()}-${String(ref.getMonth()+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      const isTod = key===today, isFut = key>today;
+      const n    = countDay(DATA.prayers[key]||{});
+      let cls    = "month-day";
+      if (isFut)      cls+=" future";
+      else if (n===5) cls+=" full";
+      else if (n>0)   cls+=" partial";
+      else            cls+=" no-data";
+      if (isTod) cls+=" today-cell";
+      const tip = isFut ? "" : `${d}: ${n}/5`;
+      html += `<div class="${cls}" title="${tip}">${d}</div>`;
+    }
+    document.getElementById("month-grid").innerHTML = html;
+  }
+</script>
+</body>
+</html>
