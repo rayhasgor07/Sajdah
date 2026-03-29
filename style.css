@@ -1,0 +1,623 @@
+/* ============================================================
+   SAJDAH — Futuristic Mobile App Stylesheet
+   Dark glassmorphism + 3D depth + neon teal accents
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────── */
+:root {
+  --bg-deep:       #050d12;
+  --bg-mid:        #0a1a22;
+  --bg-card:       rgba(10, 35, 48, 0.75);
+  --glass-border:  rgba(0, 220, 200, 0.18);
+  --neon:          #00dcc8;
+  --neon-dim:      rgba(0, 220, 200, 0.35);
+  --neon-glow:     0 0 18px rgba(0, 220, 200, 0.55), 0 0 40px rgba(0, 220, 200, 0.2);
+  --neon-glow-sm:  0 0 8px rgba(0, 220, 200, 0.45);
+  --accent:        #00b4ff;
+  --accent-dim:    rgba(0, 180, 255, 0.25);
+  --text-primary:  #e8f4f8;
+  --text-muted:    rgba(200, 230, 240, 0.6);
+  --gold:          #ffd166;
+  --radius-card:   18px;
+  --radius-btn:    14px;
+  --font-ui:       'Rajdhani', sans-serif;
+  --font-arabic:   'Noto Naskh Arabic', serif;
+  --transition:    0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Reset & Base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg-deep) !important;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,220,200,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 90% 110%, rgba(0,180,255,0.08) 0%, transparent 60%);
+  font-family: var(--font-ui);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Header ────────────────────────────────────────────── */
+header {
+  background: linear-gradient(180deg, rgba(0,220,200,0.06) 0%, transparent 100%) !important;
+  border-bottom: 1px solid var(--glass-border);
+  height: 62px !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header text {
+  font-family: var(--font-ui) !important;
+  font-size: 1.4rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--neon) !important;
+  text-shadow: var(--neon-glow-sm);
+}
+
+/* ─── Navigation Bar ────────────────────────────────────── */
+div[style*="background-color: skyblue"] {
+  background: rgba(5, 18, 28, 0.92) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  gap: 4px;
+  padding: 6px 8px;
+  flex-wrap: nowrap !important;
+}
+
+/* ─── Nav Buttons ───────────────────────────────────────── */
+#buttons {
+  text-decoration: none !important;
+  color: var(--text-muted) !important;
+  border-radius: var(--radius-btn) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 220, 200, 0.06) !important;
+  border: 1px solid rgba(0, 220, 200, 0.1);
+  text-align: center !important;
+  margin: 3px !important;
+  width: 40% !important;
+  min-height: 56px;
+  font-size: 0.6rem !important;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: var(--transition);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+#buttons::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,220,200,0) 0%, rgba(0,220,200,0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#buttons:hover {
+  background: rgba(0, 220, 200, 0.14) !important;
+  border-color: var(--neon-dim);
+  color: var(--neon) !important;
+  box-shadow: var(--neon-glow-sm), 0 8px 24px rgba(0,0,0,0.4);
+  transform: translateY(-2px) scale(1.02);
+}
+
+#buttons:hover::before { opacity: 1; }
+
+#buttons i {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  transition: color 0.3s;
+}
+
+#buttons:hover i { color: var(--neon); text-shadow: var(--neon-glow-sm); }
+
+/* Active / current page button */
+#buttons[style*="darkcyan"],
+#buttons[style*="background-color: darkcyan"] {
+  background: linear-gradient(135deg, rgba(0,180,140,0.3) 0%, rgba(0,220,200,0.15) 100%) !important;
+  border-color: var(--neon) !important;
+  color: var(--neon) !important;
+  box-shadow: var(--neon-glow-sm), 0 4px 20px rgba(0,0,0,0.4);
+}
+
+/* ─── Content Cards (#results) ──────────────────────────── */
+#results {
+  display: flex;
+  flex-direction: column !important;
+  flex: none !important;
+  flex-wrap: nowrap !important;
+  justify-content: center;
+  width: 100%;
+  height: auto !important;
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  margin: 10px 14px;
+  width: calc(100% - 28px);
+  padding: 20px 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 -1px 0 rgba(0,0,0,0.3) inset;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#results::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--neon-dim) 50%, transparent 100%);
+}
+
+#results:hover {
+  transform: scale(1.015) translateY(-3px) !important;
+  background-color: rgba(0, 220, 200, 0.08) !important;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(0, 220, 200, 0.25),
+    var(--neon-glow-sm);
+}
+
+/* Override inline row direction set on some #results */
+div[style*="flex-direction: column"][style*="justify-content: center"][style*="align-items: center"]#results,
+#results[style*="flex-direction: column"] {
+  flex-direction: column !important;
+}
+
+/* First #results (section title bar) */
+#results:first-of-type {
+  flex-direction: row !important;
+  align-items: center;
+  padding: 14px 20px;
+}
+
+/* ─── Typography inside cards ───────────────────────────── */
+#results text,
+#results b,
+#results u {
+  color: var(--text-primary) !important;
+}
+
+#results text[style*="font-size:130%"],
+#results text[style*="font-size: 130%"] {
+  font-size: 1.15rem !important;
+  font-weight: 700;
+  color: var(--neon) !important;
+  text-shadow: var(--neon-glow-sm);
+  letter-spacing: 0.06em;
+}
+
+/* Arabic text */
+#results text[dir="rtl"],
+#results text:lang(ar) {
+  font-family: var(--font-arabic);
+  font-size: 1.25rem;
+  direction: rtl;
+  line-height: 2;
+  color: var(--gold) !important;
+}
+
+/* Detect Arabic by content via heuristic — style large Arabic text blocks */
+#results text[style*="text-align: center"]:not([style*="font-size"]) {
+  line-height: 1.7;
+  color: rgba(220, 240, 255, 0.85) !important;
+  font-size: 0.9rem;
+}
+
+/* Pillar headings */
+b u text,
+b u {
+  color: var(--neon) !important;
+  text-shadow: var(--neon-glow-sm);
+  letter-spacing: 0.1em;
+}
+
+/* ─── Images inside cards ───────────────────────────────── */
+#results img {
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,220,200,0.1);
+  filter: drop-shadow(0 4px 12px rgba(0,220,200,0.2));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#results img:hover {
+  transform: scale(1.05) translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,220,200,0.3);
+}
+
+/* ─── Buttons ───────────────────────────────────────────── */
+button, .start-btn {
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(0,180,140,0.35) 0%, rgba(0,220,200,0.2) 100%) !important;
+  color: var(--neon) !important;
+  align-items: center;
+  border: 1px solid var(--neon-dim) !important;
+  border-radius: 30px !important;
+  padding: 12px 28px !important;
+  margin: 12px !important;
+  font-family: var(--font-ui) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4), var(--neon-glow-sm);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+button::after, .start-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+button:hover, .start-btn:hover {
+  background: linear-gradient(135deg, rgba(0,220,200,0.45) 0%, rgba(0,180,255,0.25) 100%) !important;
+  box-shadow: var(--neon-glow), 0 8px 32px rgba(0,0,0,0.5) !important;
+  transform: translateY(-3px) scale(1.04) !important;
+  border-color: var(--neon) !important;
+}
+
+button:active, .start-btn:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* ─── Surah cards ───────────────────────────────────────── */
+#surah {
+  padding: 14px 18px !important;
+  margin: 8px !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-card) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  align-items: center !important;
+  font-size: 0.82rem !important;
+  font-family: var(--font-ui) !important;
+  width: 300px !important;
+  text-align: center !important;
+  text-decoration: none !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+  transition: var(--transition);
+}
+
+#surah:hover {
+  transform: scale(1.05) translateY(-3px) !important;
+  background: rgba(0, 220, 200, 0.12) !important;
+  border-color: var(--neon-dim) !important;
+  box-shadow: var(--neon-glow-sm), 0 12px 32px rgba(0,0,0,0.5) !important;
+  color: var(--neon) !important;
+}
+
+/* ─── Sidebar ───────────────────────────────────────────── */
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  font-size: 40%;
+  overflow: auto;
+  width: 80%;
+  height: 400px;
+  backdrop-filter: blur(12px);
+}
+
+/* ─── Quran container ───────────────────────────────────── */
+#quran {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#surahContainer {
+  height: 70vh;
+  overflow-y: scroll;
+  padding: 20px;
+  margin: 20px;
+  background: rgba(5, 18, 28, 0.5) !important;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--glass-border);
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-dim) transparent;
+}
+
+#surahContainer::-webkit-scrollbar { width: 4px; }
+#surahContainer::-webkit-scrollbar-track { background: transparent; }
+#surahContainer::-webkit-scrollbar-thumb { background: var(--neon-dim); border-radius: 4px; }
+
+/* ─── Compass ───────────────────────────────────────────── */
+.compass {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  margin: auto;
+  margin-top: 40px;
+  box-shadow:
+    0 0 0 2px var(--glass-border),
+    0 0 40px rgba(0,220,200,0.2),
+    0 20px 60px rgba(0,0,0,0.6);
+  background: radial-gradient(circle at 40% 35%, rgba(0,220,200,0.06) 0%, rgba(5,18,28,0.9) 100%);
+}
+
+.compass > .arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-style: solid;
+  border-width: 30px 20px 0 20px;
+  border-color: var(--neon) transparent transparent transparent;
+  filter: drop-shadow(0 0 8px var(--neon));
+  z-index: 1;
+}
+
+.compass > .compass-circle,
+.compass > .my-point {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+  background: url(https://purepng.com/public/uploads/large/purepng.com-compasscompassinstrumentnavigationcardinal-directionspointsdiagram-1701527842316onq7x.png)
+    center no-repeat;
+  background-size: contain;
+  filter: hue-rotate(170deg) brightness(0.8) saturate(1.5);
+}
+
+.compass > .my-point {
+  opacity: 0;
+  width: 20%;
+  height: 20%;
+  background: var(--neon);
+  border-radius: 50%;
+  transition: opacity 0.5s ease-out;
+  box-shadow: 0 0 16px var(--neon);
+}
+
+/* ─── Audio Players ─────────────────────────────────────── */
+audio {
+  border-radius: 40px !important;
+  width: calc(100% - 40px);
+  max-width: 320px;
+  filter: invert(0.9) hue-rotate(155deg) saturate(1.5);
+  margin: 16px auto !important;
+  display: block;
+}
+
+/* ─── Extra page grid buttons ───────────────────────────── */
+div[style*="background-color: cadetblue"] > a#buttons {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.04);
+  padding: 18px 10px !important;
+  min-height: 72px;
+  color: var(--text-primary) !important;
+  gap: 6px;
+}
+
+div[style*="background-color: cadetblue"] > a#buttons[style*="skyblue"],
+div[style*="background-color: cadetblue"] > a[style*="background-color:skyblue"] {
+  background: var(--bg-card) !important;
+}
+
+div[style*="background-color: cadetblue"] > a#buttons i {
+  font-size: 1.4rem;
+  color: var(--neon);
+  text-shadow: var(--neon-glow-sm);
+}
+
+div[style*="background-color: cadetblue"] > a#buttons:hover {
+  background: rgba(0,220,200,0.15) !important;
+  border-color: var(--neon) !important;
+  transform: translateY(-4px) scale(1.05) !important;
+  box-shadow: var(--neon-glow), 0 12px 32px rgba(0,0,0,0.5) !important;
+  color: var(--neon) !important;
+}
+
+/* ─── Donate / Link Buttons ─────────────────────────────── */
+a[style*="border-radius: 50px"],
+a[href*="donate"] {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(0,180,140,0.4) 0%, rgba(0,220,200,0.2) 100%) !important;
+  color: var(--neon) !important;
+  border: 1px solid var(--neon-dim) !important;
+  border-radius: 30px !important;
+  padding: 14px 30px !important;
+  font-family: var(--font-ui) !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  box-shadow: var(--neon-glow-sm), 0 4px 20px rgba(0,0,0,0.4) !important;
+  transition: var(--transition) !important;
+}
+
+a[style*="border-radius: 50px"]:hover {
+  transform: translateY(-3px) scale(1.04) !important;
+  box-shadow: var(--neon-glow), 0 8px 32px rgba(0,0,0,0.5) !important;
+}
+
+/* ─── Footer / Socials ──────────────────────────────────── */
+div[style*="background-color: skyblue"]:last-of-type,
+div[style*="align-self:baseline"] {
+  background: rgba(5, 18, 28, 0.95) !important;
+  border-top: 1px solid var(--glass-border) !important;
+  padding: 8px 0 !important;
+}
+
+div[style*="align-self:baseline"] a i,
+div[style*="align-items:flex-end"] a i {
+  color: var(--text-muted) !important;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+div[style*="align-self:baseline"] a:hover i,
+div[style*="align-items:flex-end"] a:hover i {
+  color: var(--neon) !important;
+  text-shadow: var(--neon-glow-sm);
+}
+
+/* ─── Map ───────────────────────────────────────────────── */
+#map {
+  height: 500px;
+  width: 90%;
+  margin: 20px auto;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,220,200,0.1);
+  overflow: hidden;
+}
+
+#loading {
+  text-align: center;
+  color: var(--neon) !important;
+  margin-top: 20px;
+  font-size: 1rem;
+  font-family: var(--font-ui);
+  letter-spacing: 0.1em;
+  text-shadow: var(--neon-glow-sm);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ─── Tasbih Counter ────────────────────────────────────── */
+#counter {
+  font-family: var(--font-ui) !important;
+  font-size: 4rem !important;
+  font-weight: 700;
+  color: var(--neon) !important;
+  text-shadow: var(--neon-glow);
+  display: block;
+  text-align: center;
+  letter-spacing: 0.05em;
+  margin: 16px 0 !important;
+}
+
+.circle {
+  width: 12px !important;
+  height: 12px !important;
+  background: var(--neon) !important;
+  border-radius: 50% !important;
+  margin: 4px !important;
+  box-shadow: 0 0 8px var(--neon), 0 0 16px rgba(0,220,200,0.4);
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ─── Input Fields ──────────────────────────────────────── */
+input[type="text"] {
+  background: rgba(5, 18, 28, 0.8) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  padding: 0 16px !important;
+  font-family: var(--font-ui) !important;
+  font-size: 1rem !important;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+input[type="text"]:focus {
+  border-color: var(--neon) !important;
+  box-shadow: 0 0 0 3px rgba(0,220,200,0.15), var(--neon-glow-sm) !important;
+}
+
+input[type="text"]::placeholder { color: var(--text-muted); }
+
+/* ─── Form containers ───────────────────────────────────── */
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ─── Global text overrides ─────────────────────────────── */
+text { font-family: var(--font-ui); }
+
+/* Inline cadetblue body bg override */
+body[style*="background-color: cadetblue"] {
+  background-color: var(--bg-deep) !important;
+}
+
+/* All remaining cadetblue divs → deep bg */
+div[style*="background-color: cadetblue"] {
+  background-color: var(--bg-mid) !important;
+}
+
+/* ─── Page load fade-in ─────────────────────────────────── */
+body > *:not(header):not(script) {
+  animation: fadeUp 0.5s ease both;
+}
+
+body > *:nth-child(2) { animation-delay: 0.05s; }
+body > *:nth-child(3) { animation-delay: 0.10s; }
+body > *:nth-child(4) { animation-delay: 0.15s; }
+body > *:nth-child(5) { animation-delay: 0.20s; }
+body > *:nth-child(6) { animation-delay: 0.25s; }
+body > *:nth-child(n+7) { animation-delay: 0.30s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-dim); }
+
+/* ─── Selection ─────────────────────────────────────────── */
+::selection { background: rgba(0,220,200,0.25); color: var(--neon); }
