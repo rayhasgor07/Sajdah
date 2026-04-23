@@ -64,6 +64,11 @@
     <text style="margin-top: 10px">PROFILE</text>
     <i style="margin-bottom: 10px"  class="fa-solid fa-user"></i>
   </a>
+   </a>
+    <a id="buttons"  href="./ai.html">
+    <text style="margin-top: 10px">AI</text>
+    <i style="margin-bottom: 10px"  class="fa-solid fa-robot"></i>
+  </a>
     </div>
 
      <div id="results">
@@ -80,6 +85,92 @@
       <a href="https://www.tiktok.com/@rocketroni2007"><i style="font-size:25px; margin:20px; color: white;" class="fa-brands fa-tiktok"></i></a>
     </div>
 
+   <!-- <script>
+  const API_KEY = "AIzaSyDKu8vbz_DmLfpBFaeisIOlWOr-5K9NAf8";
+
+  navigator.geolocation.getCurrentPosition(success, error);
+
+  function success(position) {
+    const lat = position.coords.latitude;
+    const lng = position.coords.longitude;
+
+    document.getElementById("loading").innerText = "Loading nearby masjids…";
+
+    const map = L.map('map').setView([lat, lng], 13);
+    // 5 KM RADIUS CIRCLE
+L.circle([lat, lng], {
+  radius: 5000,          // 5 km
+  color: "green",        // outline color
+  fillColor: "lightgreen",
+  fillOpacity: 0.1
+}).addTo(map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    // YOUR LOCATION MARKER (unchanged)
+    L.marker([lat, lng]).addTo(map).bindPopup("You are here");
+
+    // CUSTOM MOSQUE ICON
+    const mosqueIcon = L.divIcon({
+      html: '<i class="fa-solid fa-mosque" style="font-size:26px;color:green;background:white;padding:6px;border-radius:50%;"></i>',
+      className: "",
+      iconSize: [34, 34],
+      iconAnchor: [17, 17]
+    });
+
+    // GOOGLE PLACES API (v1)
+    fetch("https://places.googleapis.com/v1/places:searchNearby", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": API_KEY,
+        "X-Goog-FieldMask": "places.displayName,places.location,places.formattedAddress"
+      },
+      body: JSON.stringify({
+        includedTypes: ["mosque"],
+        maxResultCount: 20,
+        locationRestriction: {
+          circle: {
+            center: { latitude: lat, longitude: lng },
+            radius: 5000
+          }
+        }
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("loading").style.display = "none";
+
+      if (!data.places || data.places.length === 0) {
+        alert("No masjids found within 5 km.");
+        return;
+      }
+
+      data.places.forEach(place => {
+        const name = place.displayName?.text || "Masjid";
+        const plat = place.location.latitude;
+        const plng = place.location.longitude;
+        const address = place.formattedAddress || "";
+
+        // MASJID MARKER WITH MOSQUE ICON
+        L.marker([plat, plng], { icon: mosqueIcon })
+          .addTo(map)
+          .bindPopup(`<b>${name}</b><br>${address}`);
+      });
+    })
+    .catch(err => {
+      document.getElementById("loading").innerText = "Error loading masjids.";
+      console.error(err);
+    });
+  }
+
+  function error() {
+    alert("Please enable location to find nearby masjids.");
+  }
+</script>
+-->
 
   </body>
 </html>

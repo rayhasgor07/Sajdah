@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MidNight Tuners — Torque AI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../style.css"/>
+  <style>
+    .ai-wrap {
+      max-width: 680px;
+      margin: 28px auto 60px;
+      padding: 0 16px;
+    }
+
+    .ai-header {
+      text-align: center;
+      padding: 28px 0 20px;
+    }
+
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--pink);
+      border: 1px solid rgba(255,45,111,0.3);
+      border-radius: 99px;
+      padding: 5px 16px;
+      background: rgba(255,45,111,0.08);
+      margin-bottom: 12px;
+    }
+
+    .ai-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--pink);
+      border-radius: 50%;
+      animation: blink 1.2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .ai-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+    }
+
+    .ai-title span { color: var(--pink); }
+
+    .ai-subtitle {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+
+    .chat-container {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .chat-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--glass-border2);
+      background: rgba(0,0,0,0.2);
+    }
+
+    .toolbar-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .toolbar-dot:nth-child(1) { background: #ff5f56; }
+    .toolbar-dot:nth-child(2) { background: #ffbd2e; }
+    .toolbar-dot:nth-child(3) { background: #27c93f; }
+
+    .toolbar-label {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    #chatOutput {
+      min-height: 240px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,45,111,0.3) transparent;
+    }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 88%;
+      animation: msgIn 0.2s ease-out;
+    }
+
+    @keyframes msgIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.user { align-self: flex-end; align-items: flex-end; }
+    .msg.bot  { align-self: flex-start; align-items: flex-start; }
+
+    .msg-bubble {
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .msg.user .msg-bubble {
+      background: rgba(0,229,255,0.12);
+      border: 1px solid rgba(0,229,255,0.25);
+      border-bottom-right-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    .msg.bot .msg-bubble {
+      background: rgba(255,45,111,0.08);
+      border: 1px solid rgba(255,45,111,0.2);
+      border-bottom-left-radius: 4px;
+      color: var(--text-primary);
+    }
+
+    .msg-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      letter-spacing: 0.1em;
+    }
+
+    .msg.user .msg-label { color: rgba(0,229,255,0.6); }
+    .msg.bot  .msg-label { color: rgba(255,45,111,0.6); }
+
+    /* Typing indicator */
+    .typing-dots { display: flex; gap: 4px; padding: 14px 16px; }
+    .typing-dots span {
+      width: 6px; height: 6px;
+      background: var(--pink);
+      border-radius: 50%;
+      animation: typeDot 1.2s ease-in-out infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typeDot {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--glass-border2);
+      background: rgba(0,0,0,0.2);
+    }
+
+    #userInput {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      resize: none;
+      min-height: 50px;
+      max-height: 120px;
+    }
+
+    #userInput:focus { box-shadow: none; border: none; }
+
+    .send-btn {
+      background: rgba(255,45,111,0.12);
+      border: none;
+      border-left: 1px solid var(--glass-border2);
+      color: var(--pink);
+      padding: 0 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+      letter-spacing: normal;
+      text-transform: none;
+      font-weight: 400;
+    }
+
+    .send-btn:hover {
+      background: rgba(255,45,111,0.25);
+      color: #fff;
+    }
+
+    .send-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .disclaimer {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      letter-spacing: 0.06em;
+    }
+
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 0 12px;
+      justify-content: center;
+    }
+
+    .suggestion-chip {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 99px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 5px 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+
+    .suggestion-chip:hover {
+      border-color: var(--pink);
+      color: var(--pink);
+      background: rgba(255,45,111,0.08);
+    }
+  </style>
+</head>
+<body>
+  <header
+      style="
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        background-color: cadetblue;
+        height:50px;
+      "
+    >
+      <text style="font-size: larger; color:white;">IMPORTANT DUAS</text>
+    </header>
+    <!--Navigation Bar-->
+<div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
+    <a id="buttons" href="../index.html">
+        <text style="margin-top: 10px;">HOME</text>
+        <i style="margin-bottom: 10px;" class="fa-solid fa-house"></i>
+    </a>
+    <a id="buttons" href="./quran.html">
+        <text style="margin-top: 10px;">QURAN</text>
+        <i style="margin-bottom: 10px"  class="fa-solid fa-book-quran"></i>
+    </a>
+    <a id="buttons"  href="./dua.html">
+        <text style="margin-top: 10px;">DUAS</text>
+        <i style="margin-bottom: 10px" class="fa-solid fa-hands-praying"></i>
+    </a>
+    <a id="buttons" href="./kursi.html">
+        <text style="margin-top: 10px">AYATUL KURSI</text>
+        <i style="margin-bottom: 10px"  class="fa-solid fa-hand-point-up"></i>
+    </a>
+    </div>
+    <div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
+    <a id="buttons" href="./prophets.html">
+        <text style="margin-top: 10px">PROPHETS</text>
+        <i style="margin-bottom: 10px" class="fa-solid fa-mosque"></i>
+    </a>
+    <a id="buttons" href="./masjid.html">
+      <text style="margin-top: 10px">MASJID</text>
+      <i style="margin-bottom: 10px" class="fa-solid fa-mosque"></i>
+    </a>
+    <a id="buttons" href="./timings.html">
+      <text style="margin-top: 10px">TIMINGS</text>
+      <i style="margin-bottom: 10px" class="fa-solid fa-calendar-days"></i>
+    </a>
+    <a id="buttons" href="./hadith.html">
+      <text style="margin-top: 10px">HADITHS</text>
+      <i style="margin-bottom: 10px"  class="fa-solid fa-scroll"></i>
+    </a>
+  </div>
+  <div style="display: flex; flex-direction: row; justify-content: center; flex:1; background-color: skyblue;">
+    <a id="buttons"  href="./extra.html">
+      <text style="margin-top: 10px">EXTRA</text>
+      <i style="margin-bottom: 10px"  class="fa-solid fa-gear"></i>
+    </a>
+      <a id="buttons" href="./profile.html">
+    <text style="margin-top: 10px">PROFILE</text>
+    <i style="margin-bottom: 10px"  class="fa-solid fa-user"></i>
+  </a>
+    <a id="buttons" style="background-color: darkcyan;" href="./ai.html">
+    <text style="margin-top: 10px">AI</text>
+    <i style="margin-bottom: 10px"  class="fa-solid fa-robot"></i>
+  </a>
+  </div>
+
+  <div class="ai-wrap">
+    <div class="ai-header">
+      <div class="ai-badge"><div class="dot"></div> ONLINE · SAJDAH AI</div>
+      <div class="ai-title">Ask <span>Sajdah</span></div>
+      <div class="ai-subtitle">Your Islamic knowledge assistant. Ask about Quran, Hadith, and Islamic topics.</div>
+    </div>
+
+    <div class="suggestions">
+      <div class="suggestion-chip" onclick="fillInput('How to improve quran recitation?')">How to improve quran recitation?</div>
+      <div class="suggestion-chip" onclick="fillInput('How many verses are in the Quran?')">How many verses are in the Quran?</div>
+      <div class="suggestion-chip" onclick="fillInput('What is the English translation of Surah Fatiha?')">English translation of Surah Fatiha</div>
+    </div>
+
+    <div class="chat-container">
+      <div class="chat-toolbar">
+        <div class="toolbar-dot"></div>
+        <div class="toolbar-dot"></div>
+        <div class="toolbar-dot"></div>
+        <div class="toolbar-label"><i class="fa-solid fa-robot" style="color:var(--pink)"></i> &nbsp;SAJDAH-1 · ISLAMIC KNOWLEDGE EDITION</div>
+      </div>
+
+      <div id="chatOutput">
+        <div class="msg bot">
+          <div class="msg-label">Sajdah AI</div>
+          <div class="msg-bubble">Hey! I'm Sajdah. Ask me anything about Islam, the Quran, Hadith, or Islamic topics. Let's get into it! �</div>
+        </div>
+      </div>
+
+      <div class="chat-input-row">
+        <textarea id="userInput" placeholder="Ask about islamic questions..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="disclaimer">⚡ May take up to 60 seconds to respond · May Make Mistakes· Powered by Groq</div>
+  </div>
+
+  <footer>© 2026 Rayyan Hasan Goraya. All rights reserved.</footer>
+
+  <script>
+    function fillInput(text) {
+      document.getElementById('userInput').value = text;
+      document.getElementById('userInput').focus();
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    async function sendMessage() {
+      const inputEl = document.getElementById("userInput");
+      const outputEl = document.getElementById("chatOutput");
+      const sendBtn = document.getElementById("sendBtn");
+      const text = inputEl.value.trim();
+      if (!text) return;
+
+      // User message
+      outputEl.innerHTML += `
+        <div class="msg user">
+          <div class="msg-label">YOU</div>
+          <div class="msg-bubble">${escHtml(text)}</div>
+        </div>`;
+      inputEl.value = "";
+      outputEl.scrollTop = outputEl.scrollHeight;
+
+      // Typing indicator
+      const typingId = 'typing-' + Date.now();
+      outputEl.innerHTML += `
+        <div class="msg bot" id="${typingId}">
+          <div class="msg-label">Sajdah AI</div>
+          <div class="msg-bubble" style="padding:0; background:rgba(255,45,111,0.05);">
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+          </div>
+        </div>`;
+      outputEl.scrollTop = outputEl.scrollHeight;
+      sendBtn.disabled = true;
+
+      try {
+        const res = await fetch("https://sajdah-ai-backend.onrender.com/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        document.getElementById(typingId)?.remove();
+        outputEl.innerHTML += `
+          <div class="msg bot">
+            <div class="msg-label">Sajdah AI</div>
+            <div class="msg-bubble">${escHtml(data.reply)}</div>
+          </div>`;
+      } catch (err) {
+        document.getElementById(typingId)?.remove();
+        outputEl.innerHTML += `
+          <div class="msg bot">
+            <div class="msg-label">Sajdah AI</div>
+            <div class="msg-bubble" style="color:rgba(255,45,111,0.8);">⚠️ Error connecting to server. Please try again.</div>
+          </div>`;
+      } finally {
+        sendBtn.disabled = false;
+        outputEl.scrollTop = outputEl.scrollHeight;
+      }
+    }
+
+    function escHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    }
+  </script>
+</body>
+</html>
